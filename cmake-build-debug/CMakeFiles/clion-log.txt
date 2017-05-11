@@ -1,0 +1,4 @@
+/Users/avallete/.brew/bin/cmake -DCMAKE_BUILD_TYPE=Debug -Wall -Wextra -Werror -G "CodeBlocks - Unix Makefiles" /Users/avallete/ClionProjects/libgraph
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/avallete/ClionProjects/libgraph/cmake-build-debug
