@@ -2,66 +2,12 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "../libft/includes/libft.h"
-
-typedef struct      s_mat_graph
-{
-    unsigned long size;
-    char            **matrix;
-}                   t_mat_graph;
+#include "../includes/libmatgraph.h"
 
 t_list *path;
-t_mat_graph *graph2;
+t_matrice_graph *graph2;
 
-void        del_mat_graph(t_mat_graph *graph)
-{
-    unsigned long i;
-
-    if (graph)
-    {
-        i = 0;
-        if (graph->matrix)
-        {
-            while (i < graph->size)
-            {
-                if (graph->matrix[i])
-                    free(graph->matrix[i]);
-                ++i;
-            }
-            free(graph->matrix);
-            graph->matrix = NULL;
-        }
-        free(graph);
-        graph = NULL;
-    }
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-    size_t i;
-
-    i = 0;
-    while (i < n)
-        ((char*)s)[i++] = 0;
-}
-
-static void        init_matrix(t_mat_graph *graph)
-{
-    unsigned long   i;
-
-    i = 0;
-    while (i < graph->size)
-    {
-        if (!(graph->matrix[i] = (char*)malloc(sizeof(char) * graph->size)))
-        {
-            del_mat_graph(graph);
-            break;
-        }
-        ft_bzero(graph->matrix[i], graph->size);
-        ++i;
-    }
-}
-
-void		print_matrix(t_mat_graph *graph)
+void		print_matrix(t_matrice_graph *graph)
 {
 	unsigned long rowlen;
 	unsigned int i;
@@ -91,84 +37,7 @@ void		print_matrix(t_mat_graph *graph)
 	}
 }
 
-char 	has_link(t_mat_graph *graph, unsigned int src, unsigned int dst)
-{
-	if (src < graph->size && dst < graph->size)
-		return (graph->matrix[src][dst]);
-	return (0);
-}
-
-void	set_link(t_mat_graph *graph, unsigned int src, unsigned int dst, char
-oriented)
-{
-	if (dst < graph->size && src < graph->size)
-	{
-		graph->matrix[src][dst] = 1;
-		if (!oriented)
-			set_link(graph, dst, src, 1);
-	}
-}
-
-
-void	toggle_link(t_mat_graph *graph, unsigned int src, unsigned int dst, char
-oriented)
-{
-	if (dst < graph->size && src < graph->size)
-	{
-		if (graph->matrix[src][dst])
-			graph->matrix[src][dst] = 0;
-		else
-			graph->matrix[src][dst] = 1;
-		if (!oriented)
-			set_link(graph, dst, src, 1);
-	}
-}
-
-void	unset_link(t_mat_graph *graph, unsigned int src, unsigned int dst, char
-oriented)
-{
-	if (dst < graph->size && src < graph->size)
-	{
-		graph->matrix[src][dst] = 0;
-		if (!oriented)
-			set_link(graph, dst, src, 1);
-	}
-}
-
-void	negate_link(t_mat_graph *graph, unsigned int src, unsigned int dst, char
-oriented)
-{
-	printf("Negate link: %d -> %d\n", src, dst);
-	if (dst < graph->size && src < graph->size)
-	{
-		graph->matrix[src][dst] = -(graph->matrix[src][dst]);
-		if (!oriented)
-			negate_link(graph, dst, src, 1);
-	}
-}
-
-
-t_mat_graph *new_mat_graph(unsigned long size)
-{
-    t_mat_graph     *graph;
-
-    graph = NULL;
-    if (size > 0)
-    {
-        if ((graph = (t_mat_graph *)malloc(sizeof(t_mat_graph))))
-        {
-            graph->size = size;
-            graph->matrix = NULL;
-            if ((graph->matrix = (char**)malloc(sizeof(char*) * (size))))
-				init_matrix(graph);
-            else
-                del_mat_graph(graph);
-        }
-    }
-    return (graph);
-}
-
-int 	min_distance(t_mat_graph *graph, int *dist, char *sptSet)
+int 	min_distance(t_matrice_graph *graph, int *dist, char *sptSet)
 {
 	int min = INT_MAX;
 	int min_index = 0;
@@ -184,7 +53,7 @@ int 	min_distance(t_mat_graph *graph, int *dist, char *sptSet)
 	return (min_index);
 }
 
-void printPath(t_mat_graph *graph, int *parent, int j, int last)
+void printPath(t_matrice_graph *graph, int *parent, int j, int last)
 {
 	if (parent[j] == -1)
 		return;
@@ -193,7 +62,7 @@ void printPath(t_mat_graph *graph, int *parent, int j, int last)
 	printf("%d ", j);
 }
 
-void revert_link(t_mat_graph *graph, unsigned int src, unsigned int dst)
+void invert_link(t_matrice_graph *graph, unsigned int src, unsigned int dst)
 {
 	if (dst < graph->size && src < graph->size)
 	{
@@ -208,11 +77,11 @@ void revert_link(t_mat_graph *graph, unsigned int src, unsigned int dst)
 	}
 }
 
-void revert_path(t_mat_graph *graph, t_list *path)
+void revert_path(t_matrice_graph *graph, t_list *path)
 {
 	while (path->next)
 	{
-		revert_link(graph, (unsigned int) (*(int *) path->content),
+		invert_link(graph, (unsigned int) (*(int *) path->content),
 					(unsigned int) (*(int *)
 							path->next->content));
 		path = path->next;
@@ -234,7 +103,7 @@ void add_path_to_graph(t_list *path)
 	}
 }
 
-void remove_inversed_edges(t_mat_graph *graph)
+void remove_inversed_edges(t_matrice_graph *graph)
 {
 
 	for (int i = 0; i < graph->size; i++)
@@ -250,7 +119,8 @@ void remove_inversed_edges(t_mat_graph *graph)
 	}
 }
 
-void printSolution(t_mat_graph *graph, int *dist, int src, int dst, int n, int
+void printSolution(t_matrice_graph *graph, int *dist, int src, int dst, int n,
+				   int
 		*parent)
 {
 	printf("Vertex\t  Distance\tPath");
@@ -261,7 +131,7 @@ void printSolution(t_mat_graph *graph, int *dist, int src, int dst, int n, int
 	add_path_to_graph(path);
 }
 
-void	restore_reverted_graph(t_mat_graph *graph)
+void	restore_reverted_graph(t_matrice_graph *graph)
 {
 	for (int i = 0; i < graph->size; i++)
 	{
@@ -276,7 +146,7 @@ void	restore_reverted_graph(t_mat_graph *graph)
 	}
 }
 
-void 	dijkstra(t_mat_graph *graph, unsigned int src, unsigned int dst)
+void 	dijkstra(t_matrice_graph *graph, unsigned int src, unsigned int dst)
 {
 	int 	u;
 	int		dist[graph->size];
@@ -314,7 +184,7 @@ void 	dijkstra(t_mat_graph *graph, unsigned int src, unsigned int dst)
 	printf("No path from %d to %d", src, dst);
 }
 
-static void     graph_iter(t_mat_graph *graph, size_t *node,
+static void     graph_iter(t_matrice_graph *graph, size_t *node,
 						   t_list **stack)
 {
 	size_t i;
@@ -328,7 +198,8 @@ static void     graph_iter(t_mat_graph *graph, size_t *node,
 	}
 }
 
-void	dfs_print_paths(t_mat_graph *graph, unsigned int src, unsigned int dst)
+void	dfs_print_paths(t_matrice_graph *graph, unsigned int src, unsigned int
+dst)
 {
 	size_t *node = NULL;
 	t_list *stack = NULL;
@@ -351,11 +222,11 @@ void	dfs_print_paths(t_mat_graph *graph, unsigned int src, unsigned int dst)
 }
 
 int main() {
-	t_mat_graph *graph;
+	t_matrice_graph *graph;
 
 //		 [1]----[2]
 //		/        |
-//	[0]-[4]-----[3]--[7]---
+//	[0]-[4]-----[3]--[7]--|
 //	  \    \   /     /    |
 //	   \    [5]----[6]    |
 //	    \                 |

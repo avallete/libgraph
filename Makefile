@@ -13,9 +13,18 @@
 CFLAGS=-Wall -Wextra -Werror
 
 SRC_PATH:=./src/
-SRC_NAME:=	main.c
+SRC_NAME:= delete_matrice_graph.c\
+           get_link.c\
+           invert_link.c\
+           negate_link.c\
+           new_matrice_graph.c\
+           set_link.c\
+           toggle_link.c\
+           unset_link.c
+
 INC_PATH=./includes/
-INC_NAME=libft.h
+INC_NAME=	libft.h\
+			libmatgraph.h
 
 OBJ_PATH=./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)
@@ -26,42 +35,50 @@ INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
 
 LIBFT:=-L libft/ -lft
-CC=clang
-NAME=lem_in
-RED=\033[30;41m
+SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
+OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
+INCF=$(addprefix $(INC_PATH), $(INC_NAME))
+INC=$(addprefix -I, $(INC_PATH))
+CFLAGS=-Wall -Wextra -Werror
+CC=gcc
+NAME=libgraph.a
+RED=\033[0;31m
+LBLUE=\033[34m
 GREEN=\033[32m
-CYAN=\033[36m
-ORANGE=\033[33m
+CYAN=\033[0;36m
+ORANGE=\033[0;33m
 NC=\033[0m
+
 
 all: $(NAME)
 
 $(NAME):$(OBJ)
-	@make -s -C libft
+	@make -C libft
 	@echo "${GREEN}Compile $(NAME) with $(CFLAGS)${NC}";
-	@$(CC) $(CLFAGS) $(OBJ) $(INC) $(LIBFT) -o $(NAME)
+	@echo "${LBLUE}ar rc $(NAME)${NC}"
+	@ar rc $(NAME) $(OBJ)
+	@echo "${ORANGE}ranlib $(NAME)${NC}"
+	@ranlib $(NAME)
 
-$(OBJ_PATH)%.o:$(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@echo "${ORANGE}Create bynary $(NAME) : $@ with $<${NC}";
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@echo "${RED} Delete OBJ files ${NC}"
-	@make clean -s -C libft
+	@make clean -C libft
+	@echo "${RED}Delete OBJ files${NC}"
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-	@echo "${RED} Delete $(NAME) file ${NC}"
-	@make fclean -s -C libft
+	@make fclean -C libft
+	@echo "${RED}Delete $(NAME) file${NC}"
 	@rm -rf $(NAME)
-
-noflags: CFLAGS=""
-noflags: all
 
 debug: CFLAGS=-g3 -O0
 debug: all
 
 re: fclean all clean
 
-.PHONY: all clean fclean re debug noflags
+.PHONY: all clean fclean re
+
