@@ -20,7 +20,8 @@ SRC_NAME:= delete_matrice_graph.c\
            new_matrice_graph.c\
            set_link.c\
            toggle_link.c\
-           unset_link.c
+           unset_link.c\
+           dijkstra.c
 
 INC_PATH=./includes/
 INC_NAME=	libft.h\
@@ -34,7 +35,6 @@ OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
 
-LIBFT:=-L libft/ -lft
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INCF=$(addprefix $(INC_PATH), $(INC_NAME))
