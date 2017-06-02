@@ -12,6 +12,18 @@
 
 #include "../includes/libmatgraph.h"
 
+static void				bzero(void *s, size_t n)
+{
+	char *tmp;
+
+	if (n)
+	{
+		tmp = s;
+		while (n--)
+			*(tmp++) = 0;
+	}
+}
+
 static void				init_matrix(t_matrice_graph *graph)
 {
 	unsigned long   i;
@@ -24,7 +36,7 @@ static void				init_matrix(t_matrice_graph *graph)
 			delete_matrice_graph(graph);
 			break;
 		}
-		ft_bzero(graph->matrix[i], graph->size);
+		bzero(graph->matrix[i], graph->size);
 		++i;
 	}
 }
