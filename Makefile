@@ -21,6 +21,12 @@ SRC_NAME:= delete_matrice_graph.c\
            set_link.c\
            toggle_link.c\
            unset_link.c\
+           new_path.c\
+           new_pathfind.c\
+           delete_path.c\
+           delete_pathfind.c\
+           pathfind_to_path.c\
+           bellman_ford.c\
            dijkstra.c
 
 INC_PATH=./includes/
@@ -66,12 +72,12 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@make clean -C libft
+#	@make clean -C libft
 	@echo "${RED}Delete OBJ files${NC}"
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-	@make fclean -C libft
+#	@make fclean -C libft
 	@echo "${RED}Delete $(NAME) file${NC}"
 	@rm -rf $(NAME)
 

@@ -34,36 +34,38 @@ static int 		min_distance(t_matrice_graph *graph, int *dist, bool *visited)
 	return (min_index);
 }
 
-static	void 	init_dijkstra(const t_path *shortest_path, const size_t size)
+static	void 	init_dijkstra(const t_pathfind *pfind, const size_t size)
 {
 	size_t i;
 
 	i = 0;
 	while (i < size)
 	{
-		shortest_path->parent[i] = -1;
-		shortest_path->dist[i] = shortest_path->max_dist;
-		shortest_path->visited[i] = false;
+		pfind->parent[i] = -1;
+		pfind->dist[i] = pfind->max_dist;
+		pfind->visited[i] = false;
 		++i;
 	}
 }
 
 static	bool	check_and_compute_edge(t_matrice_graph *graph,
-										 t_path *path, unsigned int min, size_t v)
+										 t_pathfind *pfind,
+										 unsigned int min,
+										 size_t v)
 {
-	if (!path->visited[v] && graph->matrix[min][v] &&
-		path->dist[min] != path->max_dist &&
-		path->dist[min] + graph->matrix[min][v] < path->dist[v])
+	if (!pfind->visited[v] && graph->matrix[min][v] &&
+		pfind->dist[min] != pfind->max_dist &&
+		pfind->dist[min] + graph->matrix[min][v] < pfind->dist[v])
 	{
-		path->parent[v] = min;
-		path->dist[v] = path->dist[min] + graph->matrix[min][v];
-		if (v == path->dst)
+		pfind->parent[v] = min;
+		pfind->dist[v] = pfind->dist[min] + graph->matrix[min][v];
+		if (v == pfind->dst)
 			return (true);
 	}
 	return (false);
 }
 
-static	bool 	found_path(t_matrice_graph *graph, t_path *path)
+static	bool 	found_path(t_matrice_graph *graph, t_pathfind *pfind)
 {
 	int		min;
 	size_t	i;
@@ -75,11 +77,11 @@ static	bool 	found_path(t_matrice_graph *graph, t_path *path)
 	while (i < end)
 	{
 		v = 0;
-		min = min_distance(graph, path->dist, path->visited);
-		path->visited[min] = true;
+		min = min_distance(graph, pfind->dist, pfind->visited);
+		pfind->visited[min] = true;
 		while (v < graph->size)
 		{
-			if (check_and_compute_edge(graph, path, min, v))
+			if (check_and_compute_edge(graph, pfind, min, v))
 				return (true);
 			++v;
 		}
@@ -88,35 +90,14 @@ static	bool 	found_path(t_matrice_graph *graph, t_path *path)
 	return (false);
 }
 
-void			printPath(t_matrice_graph *graph, int *parent, int j)
+t_path 			*dijkstra(t_matrice_graph *graph, t_pathfind *pfind)
 {
-	if (parent[j] == -1)
-		return;
-	printPath(graph, parent, parent[j]);
-	printf("%d ", j);
-}
+	t_path	*path;
 
-void 			dijkstra(t_matrice_graph *graph, unsigned int src,
-						 unsigned int dst, int max_dist)
-{
-	t_path	shortest_path;
-
-	shortest_path.len = 0;
-	shortest_path.src = src;
-	shortest_path.dst = dst;
-	shortest_path.max_dist = max_dist;
-	shortest_path.parent = (int*)malloc(sizeof(int) * graph->size);
-	shortest_path.dist = (int*)malloc(sizeof(int) * graph->size);
-	shortest_path.visited = (char*)malloc(sizeof(char) * graph->size);
-
-	init_dijkstra(&shortest_path, graph->size);
-	shortest_path.dist[src] = 0;
-	if (found_path(graph, &shortest_path))
-	{
-		printf("path found !\n");
-		printPath(graph, shortest_path.parent, dst);
-		printf("------------\n");
-	}
-	else
-		printf("No path smaller than %d from %d to %d\n", max_dist, src, dst);
+	path = NULL;
+	init_dijkstra(pfind, graph->size);
+	pfind->dist[pfind->src] = 0;
+	if (found_path(graph, pfind))
+		path = pathfind_to_path(pfind);
+	return (path);
 }

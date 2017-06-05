@@ -24,15 +24,22 @@ typedef struct			s_matrice_graph
 	char				**matrix;
 }						t_matrice_graph;
 
-typedef struct			s_path
+typedef struct			s_pathfind
 {
-	unsigned long		len;
 	unsigned long		src;
 	unsigned long		dst;
 	int					max_dist;
 	int					*parent;
 	int					*dist;
 	bool				*visited;
+}						t_pathfind;
+
+typedef struct 			s_path
+{
+	unsigned long		src;
+	unsigned long		dst;
+	unsigned long		len;
+	unsigned long		*path;
 }						t_path;
 
 /*
@@ -42,7 +49,7 @@ t_matrice_graph			*new_matrice_graph(unsigned long size);
 void					delete_matrice_graph(t_matrice_graph *graph);
 
 /*
-** Links managment for directed or indirected graph
+** Links management for directed or indirected graph
 */
 char					get_link(t_matrice_graph *graph, unsigned int src,
 								 unsigned int dst);
@@ -56,12 +63,28 @@ char					negate_link(t_matrice_graph *graph, unsigned int src,
 									unsigned int dst, char oriented);
 
 /*
-** Link managment for directed graph only
+** Link management for directed graph only
 */
 char					invert_link(t_matrice_graph *graph, unsigned int src,
 									unsigned int dst);
 
+/*
+** Path management functions useful for pathfinding algorithmes
+*/
+t_path					*new_path(unsigned long src, unsigned long dst);
+void 					delete_path(t_path **path);
+t_pathfind				*new_pathfind(unsigned long src,
+										unsigned long dst,
+										unsigned long max_dist,
+										unsigned long size);
+void 					delete_pathfind(t_pathfind **pathfind);
+t_path					*pathfind_to_path(const t_pathfind *pfind);
 
-void					dijkstra(t_matrice_graph *graph, unsigned int src,
-								 unsigned int dst, int max_dist);
+/*
+** Pathfinding algorithmes
+*/
+t_path 					*dijkstra(t_matrice_graph *graph,
+								   t_pathfind *pfind);
+t_path					*bellman_ford(t_matrice_graph *graph,
+										t_pathfind *pfind);
 #endif
