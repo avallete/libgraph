@@ -77,13 +77,16 @@ static void check_and_compute_edges(t_matrice_graph *graph, t_pathfind *path,
 	}
 }
 
+/*
+** Apply the basic BellmanFord algorithm
+*/
 static bool	found_path_bellman(t_matrice_graph *graph, t_pathfind *path)
 {
 	size_t	i;
 	size_t	u;
 	size_t	end;
 
-	i = 1;
+	i = 0;
 	end = (graph->size - 1);
 	while (i < end)
 	{
@@ -98,6 +101,20 @@ static bool	found_path_bellman(t_matrice_graph *graph, t_pathfind *path)
 	return (path->parent[path->dst] == -1 ? false : true);
 }
 
+/*
+** Custom BellmanFord algorithm.
+** Parameter:
+** 		pfind: Contain utility variables to perform pathfinding.
+**			->max_dist: The maximum len of searched path.
+** 			->src: The source node where the algorithm start.
+** 			->dst: The destination node that we want reach.
+**
+** Return:
+** 			Return a t_path malloced object if a path shorter
+**			than max_dist has been found between src and dst.
+**
+** 			Else return NULL.
+*/
 t_path		*bellman_ford(t_matrice_graph *graph, t_pathfind *pfind)
 {
 	t_path		*path;
