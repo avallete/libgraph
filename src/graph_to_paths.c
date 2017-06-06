@@ -105,6 +105,9 @@ t_path					**graph_to_paths(t_matrice_graph *graph,
 			++i;
 		}
 		paths[i] = NULL;
+		i = 0;
+		while (i < total)
+			add_path_to_graph(graph, paths[i++]);
 	}
 	return (paths);
 }
