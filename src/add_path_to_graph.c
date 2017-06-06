@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   negate_link.c                                      :+:      :+:    :+:   */
+/*   add_path_to_graph.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avallete <avallete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/30 09:04:00 by avallete          #+#    #+#             */
-/*   Updated: 2017/05/30 09:04:00 by avallete         ###   ########.fr       */
+/*   Created: 2017/06/06 09:12:00 by avallete          #+#    #+#             */
+/*   Updated: 2017/06/06 09:12:00 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libmatgraph.h"
 
-char	negate_link(t_matrice_graph *graph, unsigned int src,
-					unsigned int dst, char oriented)
+void 	add_path_to_graph(t_matrice_graph *graph, t_path *path)
 {
-	if (dst < graph->size && src < graph->size)
+	unsigned long i;
+
+	i = 0;
+	while (i < path->len)
 	{
-		if (get_link(graph, src, dst))
-			graph->matrix[src][dst] *= -1;
-		if (!oriented)
-			negate_link(graph, dst, src, 1);
-		return (1);
+		set_link(graph, path->path[i], path->path[i + 1], 1);
+		++i;
 	}
-	return (-1);
 }

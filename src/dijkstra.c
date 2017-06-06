@@ -90,6 +90,20 @@ static	bool 	found_path(t_matrice_graph *graph, t_pathfind *pfind)
 	return (false);
 }
 
+/*
+** Custom Dijkstra algorithm.
+** Parameter:
+** 		pfind: Contain utility variables to perform pathfinding.
+**			->max_dist: The maximum len of searched path.
+** 			->src: The source node where the algorithm start.
+** 			->dst: The destination node that we want reach.
+**
+** Return:
+** 			Return a t_path malloced object if a path shorter
+**			than max_dist has been found between src and dst.
+**
+** 			Else return NULL.
+*/
 t_path 			*dijkstra(t_matrice_graph *graph, t_pathfind *pfind)
 {
 	t_path	*path;

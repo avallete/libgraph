@@ -26,8 +26,11 @@ SRC_NAME:= delete_matrice_graph.c\
            delete_path.c\
            delete_pathfind.c\
            pathfind_to_path.c\
+           graph_to_paths.c\
+           add_path_to_graph.c\
            bellman_ford.c\
-           dijkstra.c
+           dijkstra.c\
+           bhandari.c
 
 INC_PATH=./includes/
 INC_NAME=	libft.h\

@@ -79,6 +79,9 @@ t_pathfind				*new_pathfind(unsigned long src,
 										unsigned long size);
 void 					delete_pathfind(t_pathfind **pathfind);
 t_path					*pathfind_to_path(const t_pathfind *pfind);
+void					add_path_to_graph(t_matrice_graph *graph, t_path *path);
+t_path					**graph_to_paths(t_matrice_graph *graph,
+										   t_pathfind *pfind);
 
 /*
 ** Pathfinding algorithmes
@@ -87,4 +90,7 @@ t_path 					*dijkstra(t_matrice_graph *graph,
 								   t_pathfind *pfind);
 t_path					*bellman_ford(t_matrice_graph *graph,
 										t_pathfind *pfind);
+t_matrice_graph			*bhandari(t_matrice_graph *graph, t_path *dijkstra_path,
+									 t_pathfind *pfind, unsigned long
+									 max_paths);
 #endif

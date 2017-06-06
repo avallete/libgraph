@@ -45,8 +45,6 @@ static	void 			set_path_from_parents(const t_pathfind *pfind,
 	path->path[0] = path->src;
 }
 
-#include <stdio.h>
-
 t_path					*pathfind_to_path(const t_pathfind *pfind)
 {
 	t_path			*path;
