@@ -46,7 +46,7 @@ typedef struct 			s_path
 ** Constructors and Destructors
 */
 t_matrice_graph			*new_matrice_graph(unsigned long size);
-void					delete_matrice_graph(t_matrice_graph *graph);
+void					delete_matrice_graph(t_matrice_graph **graph);
 
 /*
 ** Links management for directed or indirected graph

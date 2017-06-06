@@ -12,13 +12,6 @@
 
 SRC_PATH=./srcs/
 SRC_NAME=ft_atoi.c\
-		 	adj_graph_create.c\
-			adj_graph_delete.c\
-			adj_graph_add_node.c\
-			adj_graph_delete_edge.c\
-			adj_graph_set_edge.c\
-			adj_graph_set_edges.c\
-			adj_graph_shortest_path_between.c\
 			ft_bufferize.c\
 			ft_bzero.c\
 			ft_tabstrcmp.c\

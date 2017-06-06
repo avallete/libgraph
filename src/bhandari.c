@@ -95,6 +95,7 @@ static void 	restore_reverted_links(t_matrice_graph *graph)
 	}
 }
 
+
 t_matrice_graph			*bhandari(t_matrice_graph *graph, t_path *dijkstra_path,
 							 t_pathfind *pfind, unsigned long max_paths)
 {

@@ -12,25 +12,28 @@
 
 #include "../includes/libmatgraph.h"
 
-void        delete_matrice_graph(t_matrice_graph *graph)
+void        delete_matrice_graph(t_matrice_graph **graph)
 {
 	unsigned long i;
 
 	if (graph)
 	{
 		i = 0;
-		if (graph->matrix)
+		if (*graph)
 		{
-			while (i < graph->size)
+			if ((*graph)->matrix)
 			{
-				if (graph->matrix[i])
-					free(graph->matrix[i]);
-				++i;
+				while (i < (*graph)->size)
+				{
+					if ((*graph)->matrix[i])
+						free((*graph)->matrix[i]);
+					++i;
+				}
+				free((*graph)->matrix);
+				(*graph)->matrix = NULL;
 			}
-			free(graph->matrix);
-			graph->matrix = NULL;
+			free(*graph);
+			*graph = NULL;
 		}
-		free(graph);
-		graph = NULL;
 	}
 }

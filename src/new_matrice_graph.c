@@ -33,7 +33,7 @@ static void				init_matrix(t_matrice_graph *graph)
 	{
 		if (!(graph->matrix[i] = (char*)malloc(sizeof(char) * graph->size)))
 		{
-			delete_matrice_graph(graph);
+			delete_matrice_graph(&graph);
 			break;
 		}
 		bzero(graph->matrix[i], graph->size);
@@ -55,7 +55,7 @@ t_matrice_graph			*new_matrice_graph(unsigned long size)
 			if ((graph->matrix = (char**)malloc(sizeof(char*) * (size))))
 				init_matrix(graph);
 			else
-				delete_matrice_graph(graph);
+				delete_matrice_graph(&graph);
 		}
 	}
 	return (graph);
