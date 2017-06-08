@@ -33,8 +33,7 @@ SRC_NAME:= delete_matrice_graph.c\
            bhandari.c
 
 INC_PATH=./includes/
-INC_NAME=	libft.h\
-			libmatgraph.h
+INC_NAME=libmatgraph.h
 
 OBJ_PATH=./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)
@@ -62,7 +61,6 @@ NC=\033[0m
 all: $(NAME)
 
 $(NAME):$(OBJ)
-	@make -C libft
 	@echo "${GREEN}Compile $(NAME) with $(CFLAGS)${NC}";
 	@echo "${LBLUE}ar rc $(NAME)${NC}"
 	@ar rc $(NAME) $(OBJ)
@@ -75,12 +73,10 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-#	@make clean -C libft
 	@echo "${RED}Delete OBJ files${NC}"
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-#	@make fclean -C libft
 	@echo "${RED}Delete $(NAME) file${NC}"
 	@rm -rf $(NAME)
 
