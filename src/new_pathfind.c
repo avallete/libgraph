@@ -22,7 +22,7 @@ t_pathfind	*new_pathfind(unsigned long src, unsigned long dst,
 	{
 		pfind->parent = (int*)malloc(sizeof(int) * size);
 		pfind->dist = (int*)malloc(sizeof(int) * size);
-		pfind->visited = (char*)malloc(sizeof(char) * size);
+		pfind->visited = (bool*)malloc(sizeof(bool) * size);
 		if (pfind->parent && pfind->dist && pfind->visited)
 		{
 			pfind->src = src;

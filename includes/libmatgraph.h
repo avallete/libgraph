@@ -12,11 +12,9 @@
 
 #ifndef LIBGRAPH_LIBGRAPH_H
 #define LIBGRAPH_LIBGRAPH_H
-#define bool char
-#define true 1
-#define false 0
 #include <stdlib.h>
 #include <limits.h>
+#include <stdbool.h>
 
 typedef struct			s_matrice_graph
 {
